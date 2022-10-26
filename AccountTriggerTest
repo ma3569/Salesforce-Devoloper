@@ -1,0 +1,48 @@
+    
+    @TestSetup
+    public static void setup(){
+        Account  singleAcc = New Account(name='test0',phone='12313123');
+        insert singleAcc;
+        
+        List<Account> multiAcc=new List<Account>();
+        for(Integer testnumber=1;testnumber<=100;testnumber++){ 
+        Account oneAcc=new Account(name='test'+testnumber,phone='123456'+testnumber);
+        multiAcc.add(oneAcc);
+    }
+
+    insert multiAcc;
+    //stem.debug(multiAcc.size());
+    
+}
+		@isTest
+	public static void updateName_singleAcc_1(){
+    Account singleresultAcc=[SELECT id,Name,Phone FROM Account LIMIT 1];
+        system.assert(String.isNotBlank(singleresultAcc.id));//Boolean kontrol.True
+        system.assertEquals('TEST0', singleresultAcc.Name);//uppercase?true or false if true passed test.'TEST0' becasue uppercase.
+        
+    
+}
+		@isTest
+public static void updateName_multiAcc_2(){
+    List<Account> resultAcc=[SELECT id,name,Phone FROM Account];//I Called all accounts with SOQL.
+    system.assertEquals(101,resultAcc.size());//1singleAcc +100 multiAcc.
+    
+    Integer testNum=0;
+    for(Account singleTestAcc:resultAcc){
+        system.assertEquals('TEST'+testNum, singleTestAcc.Name);
+        testNum++;
+    }
+    
+    
+}
+public static void updateName_singleAcc_3(){
+    Account singleAcc=new Account(name='test123');
+    String Errormsg;
+    try{
+        insert singleAcc;
+    }catch(Exception e){
+        Errormsg=e.getMessage();
+    }
+    system.assert(Errormsg.contains('Phone'));
+		}
+  }
