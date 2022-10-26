@@ -1,0 +1,20 @@
+public class AccountTriggerHelper {
+    
+    public void nameUpdate(List<Account>multiAcc){
+        for(Account singleacc:multiAcc){
+            singleacc.name=singleacc.name.toUpperCase();
+            
+        }
+    }
+    public void validation(List<Account>multiAcc){
+        for(Account singleacc:multiAcc){
+            
+            if(String.isBlank(singleAcc.Phone)){
+               singleAcc.Phone.addError('Phone field must be filled');
+                
+            }
+           
+        }
+    }
+
+}
